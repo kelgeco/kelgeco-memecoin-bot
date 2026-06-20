@@ -1,0 +1,11 @@
+{
+  "name": "kelgeco-memecoin-bot",
+  "version": "1.0.0",
+  "main": "memecoin-detector.js",
+  "scripts": {
+    "start": "node memecoin-detector.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
