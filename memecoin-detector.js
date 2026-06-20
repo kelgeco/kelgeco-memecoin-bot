@@ -16,6 +16,7 @@ async function scanNewTokens() {
 
     for (const pair of res.data.pairs.slice(0, 20)) {
       if (!pair.baseToken) continue;
+      if (pair.chainId !== 'solana') continue;
 
       const mint = pair.baseToken.address;
       const symbol = pair.baseToken.symbol;
