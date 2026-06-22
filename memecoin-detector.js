@@ -42,8 +42,11 @@ async function scanNewTokens() {
       const priceUsd = pair.priceUsd ? parseFloat(pair.priceUsd) : 0;
       const buys = pair.txns?.h24?.buys || 0;
       const sells = pair.txns?.h24?.sells || 0;
+      const volume24h = pair.volume?.h24 || 0;
       const age = getAge(pair.pairCreatedAt);
       const imageUrl = pair.info?.imageUrl || null;
+      
+      if (volume24h < 1000) continue;
       
       if (!tracked.has(mint) && liquidity > 1000 && liquidity < 500000 && marketCap > 5000) {
         tracked.add(mint);
@@ -62,7 +65,7 @@ async function scanNewTokens() {
             { name: '⏰ Edad', value: age, inline: true },
             { name: '💵 Price', value: priceUsd > 0 ? `$${priceUsd.toFixed(8)}` : 'N/A', inline: true },
             { name: '📊 Buys/Sells (24h)', value: `${buys}/${sells} (${buySellRatio})`, inline: true },
-            { name: '\u200b', value: '\u200b', inline: true },
+            { name: '📈 Volumen (24h)', value: `$${(volume24h / 1000).toFixed(2)}K`, inline: true },
             { name: '🪙 CA', value: `\`${mint}\``, inline: false },
             { name: '🔗 View', value: `[DexScreener](https://dexscreener.com/solana/${mint}) • [Raydium](https://raydium.io/swap/?inputCurrency=sol&outputCurrency=${mint}) • [Birdeye](https://birdeye.so/token/${mint}?chain=solana)`, inline: false }
           ],
@@ -81,7 +84,7 @@ async function scanNewTokens() {
   }
 }
 
-console.log('🚀 KELGECO Memecoin Detector - Solana Edition v2');
+console.log('🚀 KELGECO Memecoin Detector - Solana Edition v3');
 console.log('Detectando tokens nuevos...\n');
 
 setInterval(scanNewTokens, 20000);
